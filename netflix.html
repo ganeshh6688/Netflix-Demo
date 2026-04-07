@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #141414;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+            border-bottom: none;
+            padding: 1rem 3rem;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e50914 !important;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #b3b3b3 !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://m.media-amazon.com/images/M/MV5BMTJiMzgwZTktYzZhZC00YzhhLWEzZDUtMGM2NTE4MzQ4NGFmXkEyXkFqcGdeQWpybA@@._V1_.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 5%;
+        }
+
+        .hero-content {
+            max-width: 550px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .btn-play {
+            background-color: #e91515;
+            color: #000;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-play:hover {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+
+        .btn-info {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-info:hover {
+            background-color: rgba(109, 109, 110, 0.4);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 3rem 2rem;
+            margin-top: -100px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.5rem;
+            scroll-behavior: smooth;
+            padding: 1rem 0;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        .content-card {
+            min-width: 250px;
+            height: 140px;
+            border-radius: 0.25rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            flex-shrink: 0;
+        }
+
+        .content-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+        }
+
+        .card-bg {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .card-1 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP9Hcd7MnPJjOtz5ueIpGy0eWVgMf46lyisg&s'); }
+        .card-2 { background-image: url('https://imageio.forbes.com/specials-images/imageserve/5f43ed103cbce1abbd96f810/0x0.jpg?format=jpg&crop=1080,842,x0,y238,safe&height=900&width=1600&fit=bounds'); }
+        .card-3 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpVkp4MGNvo9n_OoXt_s3OH_6M1iuXG56IWA&s'); }
+        .card-4 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG_k2cx8HBoW_r9jdshFcnMptgnDxjHegEHw&s'); }
+        .card-5 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ_ry30kevXgkfA3QXOQVNolizbo5bCFTcnA&s'); }
+        .card-6 { background-image: url('https://dnm.nflximg.net/api/v6/BvVbc2Wxr2w6QuoANoSpJKEIWjQ/AAAAQcpADebYdFmkL_uOpyk9BFAmamzYMDvHKB9G81tX8_3LiVke2NoTPeaBA5bUQkfW-yNH1XMLbMFuxc5_cLSRvi9qI82-2Ev_PV3QvyToemZxmZhEwCU84-985rZTzk9hR_Q86xPfUMHg5eB3c6hbGGq3lFQ.jpg?r=790'); }
+        .card-7 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_r_iIa01ipYxax2PmXX-OFQOh2mPTLbndjw&s'); }
+        .card-8 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCSMaNKciox913qn9zUtPVqE_x3JaJRWL2FQ&s'); }
+        .card-9 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSFE4ovtL00m2D_mvfPbVqRboGPZBVnxCFpg&s'); }
+        .card-10 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjpP9Qqr7qGd-CTvIsD3HAPdE8unMWNKPUkQ&s'); }
+        .card-11 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc2LQ3k5lhfeiWoAgC0MI3k3TQUFkIBV8XRA&s'); }
+        .card-12 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDA9A2NCQ1m95V4xWvwkvHV10pZyhIu6OQDA&s'); }
+        .card-13 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7bpzc9h6N8G6CEXzOy1BouvqvjfjpzLb2kQ&s'); }
+        .card-14 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTAb2VXFLJH8FXdvbCQkLgdCcyqK7pO2vCZQ&s'); }
+        .card-15 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVrIsSN_qJB45yE9Vw6uZWIE4iw-X-y9Zb3Q&s'); }
+        .card-16 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjQlaOhR6o4pYf1P6kz3YcjXbrJ5_j5GYsvw&s'); }
+        .card-17 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTOy9-PEYtGKu5fx3uqw1Ujz8Frz4Ey9tHjw&s'); }
+        .card-18 { background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3GtG2RvYBQAssVGWHOsAFiQDFvh2R2eqrdQ&s'); }
+        
+        
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            padding: 3rem 2rem;
+            border-top: 1px solid #333;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #808080;
+        }
+
+        .footer-links {
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: #808080;
+            text-decoration: none;
+            margin-right: 2rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">NETFLIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">TV Shows</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Movies</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">New & Popular</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">My List</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Breaking Bad</h1>
+            <p>A high school chemistry teacher turned meth manufacturer faces challenges as he tries to secure his family's financial future.</p>
+            <button class="btn-play">▶ Play</button>
+            <button class="btn-info">ℹ More Info</button>
+        </div>
+    </div>
+
+    <!-- Trending Now Section -->
+    <div class="content-section">
+        <h2 class="section-title">Trending Now</h2>
+        <div class="scroll-container">
+            <div class="content-card">
+                <div class="card-bg card-1"><span class="card-title">Stranger Things</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-2"><span class="card-title">The Crown</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-3"><span class="card-title">Squid Game</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-4"><span class="card-title">Wednesday</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-5"><span class="card-title">The Last of Us</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-6"><span class="card-title">Dahmer</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Picks For You Section -->
+    <div class="content-section">
+        <h2 class="section-title">Top Picks For You</h2>
+        <div class="scroll-container">
+            <div class="content-card">
+                <div class="card-bg card-7"><span class="card-title">Oppenheimer</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-8"><span class="card-title">Barbie</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-9"><span class="card-title">Dune</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-10"><span class="card-title">The Platform</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-11"><span class="card-title">Glass Onion</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-12"><span class="card-title">Money Heist</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular on Netflix Section -->
+    <div class="content-section">
+        <h2 class="section-title">Popular on Netflix</h2>
+        <div class="scroll-container">
+            <div class="content-card">
+                <div class="card-bg card-13"><span class="card-title">Ginny & Georgia</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-14"><span class="card-title">Ozark</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-15"><span class="card-title">You</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-16"><span class="card-title">Bridgerton</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-17"><span class="card-title">The Witcher</span></div>
+            </div>
+            <div class="content-card">
+                <div class="card-bg card-18"><span class="card-title">Mindhunter</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">Audio and Subtitles</a>
+            <a href="#">Media Center</a>
+            <a href="#">Privacy</a>
+            <a href="#">Help Center</a>
+            <a href="#">Jobs</a>
+            <a href="#">Cookie Preferences</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Account</a>
+        </div>
+     
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
